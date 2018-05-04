@@ -5,3 +5,8 @@ footer i {
 .CodeMirror {
     height: auto;
 }
+
+.brand-logo {
+    font-family: 'Cutive Mono', monospace;
+    margin-left: 0.5em;
+}
