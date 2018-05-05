@@ -1,13 +1,12 @@
 var TreeView = {
-    branchA: "|-- ", branchB: "`-- ", stem: "|   ", space: "    ",
-    generate: function (input) {
+    generate: function (input, ascii, indent) {
         var list = input.split("\n");
         list = list.reverse();
         var output = [];
         var levelMemo = [];
         list.forEach(function (val) {
             var level = 0;
-            while (val.charAt(level) === " ") {
+            while (val.substr(level * indent.length, indent.length) === indent) {
                 level++;
                 if (levelMemo.length < level) {
                     levelMemo.push(false);
@@ -17,17 +16,17 @@ var TreeView = {
             var rowStr = "";
             for (var i = 1; i < level; i++) {
                 if (levelMemo[i - 1]) {
-                    rowStr += TreeView.stem;
+                    rowStr += ascii.stem;
                 } else {
-                    rowStr += TreeView.space;
+                    rowStr += ascii.space;
                 }
             }
             if (level === 0) {
                 rowStr += val.trim();
             } else if (levelMemo[level - 1]) {
-                rowStr += TreeView.branchA + val.trim();
+                rowStr += ascii.branchA + val.trim();
             } else {
-                rowStr += TreeView.branchB + val.trim();
+                rowStr += ascii.branchB + val.trim();
             }
             output.push(rowStr);
 
@@ -43,13 +42,45 @@ var TreeView = {
     }
 };
 
+var app = new Vue({
+    el: '#app',
+    data: {
+        ascii: [
+            {
+                branchA: "|-- ", branchB: "`-- ", stem: "|   ", space: "    "
+            }, {
+                branchA: "+-- ", branchB: "+-- ", stem: "|   ", space: "    "
+            }, {
+                branchA: "├─ ", branchB: "└─ ", stem: "│   ", space: "    "
+            }
+        ],
+        examples: [],
+        preset: "0"
+    },
+    methods: {
+        example: function (k) {
+            return "this\n"
+                   + app.ascii[k].branchA + "is\n"
+                   + app.ascii[k].stem + app.ascii[k].branchB + "an\n"
+                   + app.ascii[k].branchB + "example";
+        },
+        asciiChange: function (value) {
+            output.setValue(TreeView.generate(input.getValue(), app.ascii[value], " "));
+        }
+    }
+});
+
+app.ascii.forEach(function (value, index) {
+    app.examples.push(app.example(index));
+});
+
 var input = CodeMirror.fromTextArea($("#input").get(0),
-    {lineNumbers: true, viewportMargin: Infinity});
+    {lineNumbers: true, viewportMargin: Infinity, theme: "idea"});
 var output = CodeMirror.fromTextArea($("#output").get(0),
-    {lineNumbers: true, viewportMargin: Infinity, readOnly: true});
+    {lineNumbers: true, viewportMargin: Infinity, theme: "idea", readOnly: true});
 
 input.on("change", function (cm) {
-    output.getDoc().setValue(TreeView.generate(cm.getValue()));
+    output.setValue(TreeView.generate(cm.getValue(), app.ascii[app.preset], " "));
 });
 
 input.setValue("this\n is\n  an\n   example\n try\n  editing\n  the\n  input\n good\n luck");

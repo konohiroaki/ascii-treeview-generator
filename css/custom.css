@@ -9,4 +9,18 @@ footer i {
 .brand-logo {
     font-family: 'Cutive Mono', monospace;
     margin-left: 0.5em;
+    margin-top: 2px;
+}
+
+label[for=input], label[for=output] {
+    color: inherit;
+}
+
+textarea[id=input] + div, textarea[id=output] + div {
+    border: solid 1px #ccc;
+}
+
+input[type=radio] + span pre {
+    margin: 0;
+    font-family: Consolas, monospace;
 }

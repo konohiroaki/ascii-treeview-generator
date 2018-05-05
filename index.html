@@ -16,6 +16,8 @@
           integrity="sha256-tKn8A2U9uuN5rPr3gh4A9FYMJkarrzLVyks7aS/ZfBU=" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.css"
           integrity="sha256-I8NyGs4wjbMuBSUE40o55W6k6P7tu/7G28/JGUUYCIs=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/idea.min.css"
+          integrity="sha256-grQzeWsyhxhiva7BT0BVJ9/l4oQEWKp4YV1q8u+ku0M=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
           integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link rel="stylesheet" href="css/custom.css">
@@ -26,7 +28,7 @@
     <title>ASCII TreeView Generator</title>
 </head>
 
-<body class="grey lighten-1">
+<body class="grey darken-1 grey-text text-darken-4">
 <header>
     <nav>
         <div class="nav-wrapper blue-grey darken-4">
@@ -36,14 +38,35 @@
 </header>
 <main id="app" class="container">
     <div class="row">
-        <div class="col s6">
-            <h5>Input</h5>
-            <textarea id="input" title="input"></textarea>
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title"><i class="fas fa-cog"></i> Config</span>
+                    <form class="row">
+                        <label v-for="(v, k) in ascii" class="col s4 m3 l2">
+                            <input name="ascii" type="radio" :value="k" v-model="preset" @change="asciiChange(k)"/>
+                            <span><pre v-html="examples[k]"></pre></span>
+                        </label>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="col s6">
-            <h5>Output</h5>
-            <textarea id="output" title="output"></textarea>
-        </div>
+            <div class="col s6">
+                <div class="card">
+                    <div class="card-content">
+                        <label for="input" class="card-title"><i class="fas fa-edit"></i> Input</label>
+                        <textarea id="input" title="input"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6">
+                <div class="card">
+                    <div class="card-content">
+                        <label for="output" class="card-title"><i class="fas fa-paste"></i> Output</label>
+                        <textarea id="output" title="output"></textarea>
+                    </div>
+                </div>
+            </div>
     </div>
 </main>
 <footer>
@@ -55,6 +78,8 @@
 </footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"
+        integrity="sha256-TaLceMwjWRqe4yhbqPOJH6V7UGt5AvvdNfpaIXJWbFU=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"
         integrity="sha256-W9FML0cw6SfScX3k0Z8iTWhaZGSEUrR3R3KWfRA6lnI=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js"
