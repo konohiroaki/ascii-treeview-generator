@@ -44,7 +44,7 @@
                     <span class="card-title"><i class="fas fa-cog"></i> Config</span>
                     <form class="row">
                         <label v-for="(v, k) in ascii" class="col s4 m3 l2">
-                            <input name="ascii" type="radio" :value="k" v-model="preset" @change="asciiChange(k)"/>
+                            <input name="ascii" type="radio" class="with-gap" :value="k" v-model="preset" @change="asciiChange(k)"/>
                             <span><pre v-html="examples[k]"></pre></span>
                         </label>
                     </form>
